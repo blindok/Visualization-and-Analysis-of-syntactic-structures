@@ -1,0 +1,136 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1>None</h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%px;
+            height: 800px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "#fbf8d4", "font": {"color": "black"}, "id": 0, "label": "\u0434\u043e\u043b\u0436\u043d\u044b", "level": 0, "shape": "box", "size": 10, "title": "lemma: \u0434\u043e\u043b\u0436\u0435\u043d\npos: ADJ"}, {"color": "#c5f8e5", "font": {"color": "black"}, "id": 1, "label": "\u043e\u0431\u0440\u0430\u0437\u043e\u043c", "level": 1, "shape": "box", "size": 10, "title": "lemma: \u043e\u0431\u0440\u0430\u0437\npos: NOUN"}, {"color": "grey", "font": {"color": "black"}, "id": 2, "label": "\u0422\u0430\u043a\u0438\u043c", "level": 2, "shape": "box", "size": 10, "title": "lemma: \u0442\u0430\u043a\u043e\u0439\npos: DET"}, {"color": "gray", "font": {"color": "black"}, "id": 3, "label": ",", "level": 2, "shape": "box", "size": 10, "title": "lemma: ,\npos: PUNCT"}, {"color": "#c5f8e5", "font": {"color": "black"}, "id": 4, "label": "\u0438\u043d\u0441\u0442\u0440\u0443\u043a\u0446\u0438\u0438", "level": 1, "shape": "box", "size": 10, "title": "lemma: \u0438\u043d\u0441\u0442\u0440\u0443\u043a\u0446\u0438\u044f\npos: NOUN"}, {"color": "grey", "font": {"color": "black"}, "id": 5, "label": "\u043d\u0435\u043a\u043e\u0442\u043e\u0440\u044b\u0435", "level": 2, "shape": "box", "size": 10, "title": "lemma: \u043d\u0435\u043a\u043e\u0442\u043e\u0440\u044b\u0439\npos: DET"}, {"color": "#cce2f1", "font": {"color": "black"}, "id": 6, "label": "\u0432\u044b\u043f\u043e\u043b\u043d\u044f\u0442\u044c\u0441\u044f", "level": 1, "shape": "box", "size": 10, "title": "lemma: \u0432\u044b\u043f\u043e\u043b\u043d\u044f\u0442\u044c\npos: VERB"}, {"color": "#c5f8e5", "font": {"color": "black"}, "id": 7, "label": "\u0437\u0430\u0432\u0435\u0440\u0448\u0435\u043d\u0438\u044f", "level": 2, "shape": "box", "size": 10, "title": "lemma: \u0437\u0430\u0432\u0435\u0440\u0448\u0435\u043d\u0438\u0435\npos: NOUN"}, {"color": "#f9ded7", "font": {"color": "black"}, "id": 8, "label": "\u0441\u0442\u0440\u043e\u0433\u043e", "level": 3, "shape": "box", "size": 10, "title": "lemma: \u0441\u0442\u0440\u043e\u0433\u043e\npos: ADV"}, {"color": "#e4bef2", "font": {"color": "black"}, "id": 9, "label": "\u043f\u043e\u0441\u043b\u0435", "level": 3, "shape": "box", "size": 10, "title": "lemma: \u043f\u043e\u0441\u043b\u0435\npos: ADP"}, {"color": "#c5f8e5", "font": {"color": "black"}, "id": 10, "label": "\u0440\u0430\u0431\u043e\u0442\u044b", "level": 3, "shape": "box", "size": 10, "title": "lemma: \u0440\u0430\u0431\u043e\u0442\u0430\npos: NOUN"}, {"color": "#c5f8e5", "font": {"color": "black"}, "id": 11, "label": "\u0438\u043d\u0441\u0442\u0440\u0443\u043a\u0446\u0438\u0439", "level": 4, "shape": "box", "size": 10, "title": "lemma: \u0438\u043d\u0441\u0442\u0440\u0443\u043a\u0446\u0438\u044f\npos: NOUN"}, {"color": "#cce2f1", "font": {"color": "black"}, "id": 12, "label": "\u0437\u0430\u0432\u0438\u0441\u044f\u0442", "level": 5, "shape": "box", "size": 10, "title": "lemma: \u0437\u0430\u0432\u0438\u0441\u0435\u0442\u044c\npos: VERB"}, {"color": "gray", "font": {"color": "black"}, "id": 13, "label": ",", "level": 6, "shape": "box", "size": 10, "title": "lemma: ,\npos: PUNCT"}, {"color": "#f4cddf", "font": {"color": "black"}, "id": 14, "label": "\u043a\u043e\u0442\u043e\u0440\u044b\u0445", "level": 6, "shape": "box", "size": 10, "title": "lemma: \u043a\u043e\u0442\u043e\u0440\u044b\u0439\npos: PRON"}, {"color": "#e4bef2", "font": {"color": "black"}, "id": 15, "label": "\u043e\u0442", "level": 7, "shape": "box", "size": 10, "title": "lemma: \u043e\u0442\npos: ADP"}, {"color": "#f4cddf", "font": {"color": "black"}, "id": 16, "label": "\u043e\u043d\u0438", "level": 6, "shape": "box", "size": 10, "title": "lemma: \u043e\u043d\u0438\npos: PRON"}, {"color": "gray", "font": {"color": "black"}, "id": 17, "label": ".", "level": 1, "shape": "box", "size": 10, "title": "lemma: .\npos: PUNCT"}]);
+        edges = new vis.DataSet([{"arrows": "to", "color": "black", "from": 0, "label": "parataxis", "to": 1}, {"arrows": "to", "color": "black", "from": 1, "label": "det", "to": 2}, {"arrows": "to", "color": "black", "from": 1, "label": "punct", "to": 3}, {"arrows": "to", "color": "black", "from": 0, "label": "nsubj", "to": 4}, {"arrows": "to", "color": "black", "from": 4, "label": "det", "to": 5}, {"arrows": "to", "color": "black", "from": 0, "label": "xcomp", "to": 6}, {"arrows": "to", "color": "black", "from": 6, "label": "obl", "to": 7}, {"arrows": "to", "color": "black", "from": 7, "label": "obl", "to": 8}, {"arrows": "to", "color": "black", "from": 7, "label": "case", "to": 9}, {"arrows": "to", "color": "black", "from": 7, "label": "nmod", "to": 10}, {"arrows": "to", "color": "black", "from": 10, "label": "nmod", "to": 11}, {"arrows": "to", "color": "black", "from": 11, "label": "acl:relcl", "to": 12}, {"arrows": "to", "color": "black", "from": 12, "label": "punct", "to": 13}, {"arrows": "to", "color": "black", "from": 12, "label": "obl", "to": 14}, {"arrows": "to", "color": "black", "from": 14, "label": "case", "to": 15}, {"arrows": "to", "color": "black", "from": 12, "label": "nsubj", "to": 16}, {"arrows": "to", "color": "black", "from": 0, "label": "punct", "to": 17}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "physics"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "layout": {
+        "hierarchical": {
+            "blockShifting": true,
+            "edgeMinimization": true,
+            "enabled": true,
+            "levelSeparation": 150,
+            "parentCentralization": true,
+            "sortMethod": "hubsize",
+            "treeSpacing": 200
+        },
+        "improvedLayout": true,
+        "randomSeed": 0
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
